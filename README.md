@@ -10,16 +10,9 @@ To install the `kloud-installer` binary you need to run `install.sh` or the foll
 curl -o- https://raw.githubusercontent.com/kloudio/kloud-installer/master/install.sh | sudo sh
 ```
 
-For specific version:
+Verify installation worked
 ```bash
-curl -o- https://raw.githubusercontent.com/kloudio/kloud-installer/{{version}}/install.sh | sudo sh
-
-```
-
-Or using, `wget`:
-```bash
-wget -qO- https://raw.githubusercontent.com/kloudio/kloud-installer/{{version}}/install.sh | sudo sh
-
+kloud-installer version
 ```
 
 ## Usage 
@@ -66,23 +59,24 @@ crongjobs
 
 ### Complete Enterprise Installation
 To set up a new enterprise, run the following:
+
+1. Install the CORE services, including backend, clients, and the database on 1 instance.
 ```sh
-sudo kloud-installer install \
-  --license <license>
+sudo kloud-installer install core \
+  --license 'license-key' \
+  --database '{"host":"<rds-host>","port":5432,"dialect":"postgres","database":"kloudio","username":"kloudio","password":"<rsd-password>"}' \
+  --host 'http://<ec2-host>'
 ```
 
-Optionally, supply the `database` flag to configure a seperate database:
+2. Install the other services on the second instances.
 ```sh
 sudo kloud-installer install \
-  --database='{"host":"host","port":5432,"database":"kloudio","username":"kloudio","password":"rainbow"}'
+  --license 'license-key' \
+  --database '{"host":"<rds-host>","port":5432,"dialect":"postgres","database":"kloudio","username":"kloudio","password":"<rsd-password>"}' \
+  --host 'http://<ec2-host>'
 ```
 
-Optionally, supply the `host` flag to configure a seperate database:
-```sh
-sudo kloud-installer install \
-  --host="http://53.12.5.12"
-```
-
+#### Optional Arguments
 Supply the `cleanup=false` flag to keep installation files around.
 ```sh
 sudo kloud-installer install \
@@ -95,10 +89,3 @@ sudo kloud-installer install \
   --verbose=true \
   --debug=true
 ```
-
-To install a specific service, run the following.
-```sh
-sudo kloud-installer install <service-name>
-```
-
-**Note: If you're install across multiple instances, please make sure the configurations point to the proper place.**
