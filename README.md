@@ -1,5 +1,7 @@
 # kloud-installer
-The external facing mirror for `kloudio/installer`
+The enmterprise installer for :cloud: [kloud.io](https://kloud.io)
+
+**Please note that this tool is in beta. Feel free to contribute by filing issues and bugs [here](https://github.com/Kloudio/kloud-installer/issues).**
 
 ## Installation
 To install the `kloud-installer` binary you need to run `install.sh` or the following:
@@ -21,10 +23,15 @@ wget -qO- https://raw.githubusercontent.com/kloudio/kloud-installer/{{version}}/
 ```
 
 ## Usage 
+To verify your installation worked, run the following:
+```bash
+kloud-installer version
+```
+
 You can always use the `--help` to try to get more information.
 
 ```bash
-➜ kloud-installer --help 
+➜ ./kloud-installer --help
 A set of tools for Kloudio.
 
 Usage:
@@ -32,9 +39,9 @@ Usage:
 
 Available Commands:
   help        Help about any command
-  install     
+  install     Install the whole kloud or just a piece of it
   list        list a resource
-  version     output the version
+  version     Output the version
 
 Flags:
   -h, --help   help for kloud-installer
@@ -60,51 +67,38 @@ crongjobs
 ### Complete Enterprise Installation
 To set up a new enterprise, run the following:
 ```sh
-sudo ./kloud-installer install enterprise \
-  --flavor <flavor> \
+sudo kloud-installer install \
   --license <license>
 ```
 
 Optionally, supply the `database` flag to configure a seperate database:
 ```sh
-sudo ./kloud-installer install enterprise \
-  --flavor <flavor> \
-  --license <license> \
+sudo kloud-installer install \
   --database='{"host":"host","port":5432,"database":"kloudio","username":"kloudio","password":"rainbow"}'
 ```
-If not provided, a postgres container will be loaded next to the installation.
+
+Optionally, supply the `host` flag to configure a seperate database:
+```sh
+sudo kloud-installer install \
+  --host="http://53.12.5.12"
+```
 
 Supply the `cleanup=false` flag to keep installation files around.
 ```sh
-sudo ./kloud-installer install enterprise \
-  --flavor <flavor> \
-  --license <license> \
+sudo kloud-installer install \
   --cleanup=false
 ```
 
 Supply the `verbose=true` and `debug=true` flag for more output.
 ```sh
-sudo ./kloud-installer install enterprise \
-  --flavor <flavor> \
-  --license <license> \
+sudo kloud-installer install \
   --verbose=true \
   --debug=true
 ```
 
-Supply the `skip-services` flag to skip installing a service.
-```sh
-sudo ./kloud-installer install enterprise \
-  --flavor <flavor> \
-  --license <license> \
-  --skip=services=backend
-```
-
-### Specific Service Installation
 To install a specific service, run the following.
 ```sh
-sudo ./kloud-installer install <service-name> \
-  --flavor <flavor> \
-  --license <license> \
+sudo kloud-installer install <service-name>
 ```
 
 **Note: If you're install across multiple instances, please make sure the configurations point to the proper place.**

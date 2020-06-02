@@ -3,7 +3,7 @@
 # This is heavily inspired by https://github.com/nvm-sh/nvm/blob/master/install.sh
 
 latest_version() {
-  echo "v0.4.2-06"
+  echo "v0.5.2"
 }
 
 default_install_dir() {
