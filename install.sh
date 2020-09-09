@@ -18,7 +18,7 @@ install_dir() {
   fi
 }
 
-source() {
+git_source() {
   echo "https://github.com/kloudio/kloud-installer.git"
 }
 
@@ -43,8 +43,8 @@ install_from_git() {
         echo >&2 'Failed to initialize kloud-installer repo. Please report this!'
         exit 2
       }
-      command git --git-dir="${INSTALL_DIR}/.git" remote add origin "$(source)" 2> /dev/null \
-        || command git --git-dir="${INSTALL_DIR}/.git" remote set-url origin "$(source)" || {
+      command git --git-dir="${INSTALL_DIR}/.git" remote add origin "$(git_source)" 2> /dev/null \
+        || command git --git-dir="${INSTALL_DIR}/.git" remote set-url origin "$(git_source)" || {
         echo >&2 'Failed to add remote "origin" (or set the URL). Please report this!'
         exit 2
       }
@@ -53,7 +53,7 @@ install_from_git() {
         exit 2
       }
     else
-      command git -c advice.detachedHead=false clone "$(source)" "${INSTALL_DIR}" || {
+      command git -c advice.detachedHead=false clone "$(git_source)" "${INSTALL_DIR}" || {
         echo >&2 'Failed to clone kloud-installer repo. Please report this!'
         exit 2
       }
